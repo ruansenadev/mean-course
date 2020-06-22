@@ -1,5 +1,5 @@
 <h3>Post Create</h3>
-<textarea cols="30" rows="10" [value]="'ola ganhafoto, o quanto ja cresceu?'" #postContent></textarea>
+<textarea cols="30" rows="10" [(ngModel)]="postContent"></textarea>
 <hr>
-<button (click)="onAddPost(postContent)">Send</button>
+<button (click)="onAddPost()">Send</button>
 <p>{{ newPost }}</p>
