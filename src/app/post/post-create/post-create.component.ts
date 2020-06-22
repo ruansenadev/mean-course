@@ -6,10 +6,10 @@ import { Component } from "@angular/core";
 })
 
 export class PostCreateComponent {
-  content = 'no text';
+  newPost = '';
 
 
-  onAddPost() {
-    this.content = 'ola ganhafoto, o quanto ja cresceu?'
+  onAddPost(content: HTMLTextAreaElement) {
+    this.newPost = content.value
   }
 }
