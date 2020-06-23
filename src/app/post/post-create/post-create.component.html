@@ -1,8 +1,8 @@
 <mat-card>
   <mat-form-field>
-    <textarea matInput cols="30" rows="10" [(ngModel)]="postContent"></textarea>
-    <button mat-stroked-button (click)="onAddPost()">Send</button>
+    <textarea matInput rows="6" [(ngModel)]="postContent"></textarea>
   </mat-form-field>
+  <button mat-stroked-button color="primary" (click)="onAddPost()">Send</button>
 </mat-card>
 <mat-card>
   <p>{{ newPost }}</p>
