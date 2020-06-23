@@ -1,9 +1,9 @@
 <mat-card>
   <mat-form-field>
-    <textarea matInput rows="6" [(ngModel)]="postContent"></textarea>
+    <input matInput [(ngModel)]="postTitle">
+  </mat-form-field>
+  <mat-form-field>
+    <textarea matInput cdkTextareaAutosize rows="5" [(ngModel)]="postContent"></textarea>
   </mat-form-field>
   <button mat-stroked-button color="primary" (click)="onAddPost()">Send</button>
-</mat-card>
-<mat-card>
-  <p>{{ newPost }}</p>
 </mat-card>
