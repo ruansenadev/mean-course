@@ -1,9 +1,11 @@
 <mat-card>
-  <mat-form-field>
-    <input matInput [(ngModel)]="postTitle">
-  </mat-form-field>
-  <mat-form-field>
-    <textarea matInput cdkTextareaAutosize rows="5" [(ngModel)]="postContent"></textarea>
-  </mat-form-field>
-  <button mat-stroked-button color="primary" (click)="onAddPost()">Send</button>
+  <form (submit)="onAddPost(postForm)" #postForm="ngForm">
+    <mat-form-field>
+      <input matInput name="title" type="text" minlength="2" ngModel required>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea matInput cdkTextareaAutosize name="content" rows="5" minlength="20" ngModel required></textarea>
+    </mat-form-field>
+    <button type="submit" mat-stroked-button color="primary">Enviar</button>
+  </form>
 </mat-card>

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Post } from "./post";
 
 @Component({
   selector: 'app-root',
@@ -7,8 +8,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'course-project';
-  postsAdded = [];
-  onPostAdded(post) {
+  postsAdded: Post[] = [];
+  onPostAdded(post: Post): void {
     this.postsAdded.push(post)
   }
 }
