@@ -1,10 +1,12 @@
 <mat-card>
   <form (submit)="onAddPost(postForm)" #postForm="ngForm">
     <mat-form-field>
-      <input matInput name="title" type="text" minlength="2" ngModel required>
+      <input matInput name="title" placeholder="Título" type="text" minlength="3" ngModel #title="ngModel" required>
+      <mat-error *ngIf="title.invalid">Deve conter um título de no minímo 3 letras.</mat-error>
     </mat-form-field>
     <mat-form-field>
-      <textarea matInput cdkTextareaAutosize name="content" rows="5" minlength="20" ngModel required></textarea>
+      <textarea matInput cdkTextareaAutosize placeholder="Texto" name="content" rows="5" minlength="10" ngModel #content="ngModel" required></textarea>
+      <mat-error *ngIf="content.invalid">Deve conter texto!</mat-error>
     </mat-form-field>
     <button type="submit" mat-stroked-button color="primary">Enviar</button>
   </form>
