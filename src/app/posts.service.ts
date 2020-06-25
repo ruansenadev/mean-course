@@ -1,22 +1,25 @@
 import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
+import { HttpClient } from "@angular/common/http";
 import { Post } from './post';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class PostsService {
-  // cache posts
+  constructor(private http: HttpClient) { }
   private posts: Post[] = [];
-  // serve updates
-  private postsUpdated = new Subject<Post[]>();
-  getPosts(): Post[] {
-    return [...this.posts]
+  private stream = new Subject<Post[]>();
+  getPosts(): void {
+    this.http.get<Post[]>('http://localhost:3000/api/posts').subscribe(posts => {
+      this.posts = posts
+      this.stream.next([...this.posts])
+    })
   }
-  postUpdateListener() {
-    return this.postsUpdated.asObservable();
+  postsListener() {
+    return this.stream.asObservable();
   }
   addPost(title: string, content: string): void {
-    const post: Post = {title, content}
+    const post: Post = { _id: null, title, content }
     this.posts.push(post)
-    this.postsUpdated.next([...this.posts]);
+    this.stream.next([...this.posts]);
   }
 }

@@ -14,11 +14,10 @@ export class PostListComponent implements OnInit, OnDestroy {
   posts: Post[] = []
   private postsListen: Subscription;
   ngOnInit() {
-    this.posts = this.postsService.getPosts()
-    this.postsListen = this.postsService.postUpdateListener().subscribe((posts: Post[]) => this.posts = posts)
+    this.postsService.getPosts()
+    this.postsListen = this.postsService.postsListener().subscribe((posts: Post[]) => {console.log(posts); this.posts = posts})
   }
   ngOnDestroy() {
-    // avoid delay in the service as it removes an output
     this.postsListen.unsubscribe()
   }
 }
