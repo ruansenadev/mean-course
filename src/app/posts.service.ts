@@ -9,8 +9,8 @@ export class PostsService {
   private posts: Post[] = [];
   private stream = new Subject<Post[]>();
   getPosts(): void {
-    this.http.get<Post[]>('http://localhost:3000/api/posts').subscribe(posts => {
-      this.posts = posts
+    this.http.get<{msg: string, posts: Post[]}>('http://localhost:3000/api/posts').subscribe((res) => {
+      this.posts = res.posts
       this.stream.next([...this.posts])
     })
   }
@@ -19,7 +19,20 @@ export class PostsService {
   }
   addPost(title: string, content: string): void {
     const post: Post = { _id: null, title, content }
-    this.posts.push(post)
-    this.stream.next([...this.posts]);
+    this.http.post<{msg: string, post: Post}>('http://localhost:3000/api/posts', post).subscribe((res) => {
+      console.log(res.post)
+      this.posts.push(res.post)
+      this.stream.next([...this.posts])
+    })
+  }
+  delPost(id): void {
+    this.http.delete(`http://localhost:3000/api/posts/${id}`).subscribe((res) => {
+      this.posts = this.posts.reduce((updated, post) => {
+        if(post._id !== id) updated.push(post)
+        return updated
+      }, [])
+      console.log(this.posts)
+      this.stream.next([...this.posts])
+    })
   }
 }
