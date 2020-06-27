@@ -1,24 +1,20 @@
-const express = require('express')
-const cors = require('cors')
+require('dotenv').config()
+const express = require('express');
+const mongoose = require('mongoose')
 const logger = require('morgan')
 
+const apiRouter = require('./routes/api')
+
+mongoose.connect(process.env.MONGO_URI, {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false})
+const mongoDB = mongoose.connection
+mongoDB.on('error', console.error.bind(console, 'MongoDB connection error: '))
+mongoDB.once('open', () => console.log('MongoDB connected'))
 const app = express()
+
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-const api = express.Router()
-api.use(cors())
-
-api.get('/posts', function(req, res, next) {
-  const posts = [
-    {_id: 'h45h1j2djsi0a9dfm4', title: 'Ola amigo', content: 'Amigo estou aqui..'},
-    {_id: 'h45h1j2djsi0a9dg6a', title: 'Hello my friend', content: 'I\'m here..'},
-    {_id: 'h45h1j2djsi0a9fads', title: 'Ahola muchacho', content: 'Joy estoy aqui..'}
-  ]
-  res.json(posts)
-})
-
-app.use('/api', api)
+app.use('/api', apiRouter)
 
 module.exports = app;
