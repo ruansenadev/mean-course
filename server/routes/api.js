@@ -23,6 +23,26 @@ router.post('/posts', function(req, res, next) {
   })
 })
 
+router.get('/posts/:id', function(req, res, next) {
+  Post.findById(req.params.id)
+  .exec((err, post) => {
+    if(err) {return next(err)}
+    res.json({post})
+  })
+})
+
+router.patch('/posts/:id', function(req, res, next) {
+  const post = {
+    _id: req.body._id,
+    title: req.body.title,
+    content: req.body.content
+  }
+  Post.updateOne({_id: req.params.id}, post).exec((err) => {
+    if(err) {return next(err)}
+    res.json({msg: "Post updated"})
+  })
+})
+
 router.delete('/posts/:id', function(req, res, next) {
   Post.deleteOne({_id: req.params.id})
   .exec((err) => {
