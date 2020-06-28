@@ -1,14 +1,21 @@
 <mat-card>
   <mat-spinner *ngIf="isLoading" diameter="60"></mat-spinner>
-  <form *ngIf="!isLoading" (submit)="onSavePost(postForm)" #postForm="ngForm">
+  <form [formGroup]="form" *ngIf="!isLoading" (submit)="onSavePost()">
     <mat-form-field>
-      <input matInput name="title" placeholder="Título" type="text" minlength="3" [ngModel]="post?.title" #title="ngModel" required>
-      <mat-error *ngIf="title.invalid">Deve conter um título de no minímo 3 letras.</mat-error>
+      <input matInput formControlName="title" placeholder="Título" type="text">
+      <mat-error *ngIf="form.get('title').invalid">Deve conter um título de no minímo 3 letras.</mat-error>
     </mat-form-field>
+    <mat-toolbar>
+      <button mat-button color="accent" type="button" (click)="inputFile.click()">Imagem</button>
+      <input type="file" #inputFile (change)="onImagePick($event)">
+    </mat-toolbar>
+    <div class="img-preview" *ngIf="imagePreview">
+      <img [src]="imagePreview" [alt]="form.value.title">
+    </div>
     <mat-form-field>
-      <textarea matInput cdkTextareaAutosize placeholder="Texto" name="content" rows="5" minlength="10" [ngModel]="post?.content" #content="ngModel" required></textarea>
-      <mat-error *ngIf="content.invalid">Deve conter texto!</mat-error>
+      <textarea matInput cdkTextareaAutosize placeholder="Texto" formControlName="content" rows="5"></textarea>
+      <mat-error *ngIf="form.get('content').invalid">Deve conter texto!</mat-error>
     </mat-form-field>
-    <button type="submit" mat-stroked-button color="primary">Enviar</button>
+    <button class="btn-submit" type="submit" mat-stroked-button color="primary">Enviar</button>
   </form>
 </mat-card>
