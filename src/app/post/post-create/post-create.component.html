@@ -9,7 +9,7 @@
       <button mat-button color="accent" type="button" (click)="inputFile.click()">Imagem</button>
       <input type="file" #inputFile (change)="onImagePick($event)">
     </mat-toolbar>
-    <div class="img-preview" *ngIf="imagePreview">
+    <div class="img-preview" *ngIf="imagePreview && form.get('image').valid">
       <img [src]="imagePreview" [alt]="form.value.title">
     </div>
     <mat-form-field>
