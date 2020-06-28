@@ -11,6 +11,7 @@ import { MatCardModule } from "@angular/material/card";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -32,6 +33,7 @@ import { PostListComponent } from "./post/post-list/post-list.component";
     FormsModule,
     BrowserAnimationsModule,
     MatToolbarModule,
+    MatProgressSpinnerModule,
     MatCardModule,
     MatExpansionModule,
     MatInputModule,

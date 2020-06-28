@@ -27,7 +27,7 @@ router.get('/posts/:id', function(req, res, next) {
   Post.findById(req.params.id)
   .exec((err, post) => {
     if(err) {return next(err)}
-    res.json({post})
+    res.json(post)
   })
 })
 
