@@ -33,8 +33,8 @@ export class PostsService {
       this.router.navigate(['/'])
     })
   }
-  editPost(id: string, title: string, content: string): void {
-    const post = {_id: id, title, content};
+  editPost(id: string, title: string, content: string, imagePath: string): void {
+    const post = {_id: id, title, content, imagePath};
     this.http.patch<{msg: string}>(`http://localhost:3000/api/posts/${id}`, post).subscribe((res) => {
       console.log(res.msg)
       this.router.navigate(['/'])

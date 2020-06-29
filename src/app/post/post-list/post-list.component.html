@@ -4,6 +4,9 @@
     <mat-expansion-panel-header>
       <mat-panel-title>{{post.title}}</mat-panel-title>
     </mat-expansion-panel-header>
+    <div *ngIf="post.imagePath" class="post-image">
+      <img [src]="post.imagePath" alt="post.title">
+    </div>
     <p>{{post.content}}</p>
     <mat-action-row>
       <button mat-button [routerLink]="['/edit', post._id]" >EDITAR</button>

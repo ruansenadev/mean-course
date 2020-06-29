@@ -36,11 +36,12 @@ router.get('', function(req, res, next) {
 router.post('', multer({storage: upload}).single("image"), function(req, res, next) {
   const post = new Post({
     title: req.body.title,
-    content: req.body.content
+    content: req.body.content,
+    imagePath: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   })
-  post.save((err, doc) => {
+  post.save((err, post) => {
     if(err) {return next(err)}
-    res.json({msg: "Post added to the server", post: doc})
+    res.json({msg: "Post added to the server", post})
   })
 })
 
