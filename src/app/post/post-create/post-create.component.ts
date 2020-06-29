@@ -61,7 +61,7 @@ export class PostCreateComponent implements OnInit {
     if(this.use==="edit") {
       this.postsService.editPost(this.postId, this.form.value.title, this.form.value.content)
     } else {
-      this.postsService.addPost(this.form.value.title, this.form.value.content)
+      this.postsService.addPost(this.form.value.title, this.form.value.content, this.form.value.image)
     }
     this.form.reset()
   }

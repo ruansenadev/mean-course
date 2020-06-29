@@ -1,10 +1,31 @@
 const express = require('express')
 const cors = require('cors')
+const multer = require('multer')
 const Post = require('../models/post')
 const router = express.Router()
 router.use(cors())
+const MIME_TYPES = {
+  'image/png': 'png',
+  'image/jpeg': 'jpg',
+  'image/jpg': 'jpg'
+}
 
-router.get('/posts', function(req, res, next) {
+const upload = multer.diskStorage({
+  destination: (req, file, cb) => {
+    if (!MIME_TYPES[file.mimetype]) {
+      cb(new Error('invalid mime type'))
+    } else {
+      cb(null, 'server/images')
+    }
+  },
+  filename: (req, file, cb) => {
+    const name = file.originalname.toLowerCase().split(' ').join('-')
+    cb(null, `${name}-${Date.now()}.${MIME_TYPES[file.mimetype]}`)
+  }
+})
+
+
+router.get('', function(req, res, next) {
   Post.find()
   .exec((err, posts) => {
     if (err) {return next(err)}
@@ -12,7 +33,7 @@ router.get('/posts', function(req, res, next) {
   })
 })
 
-router.post('/posts', function(req, res, next) {
+router.post('', multer({storage: upload}).single("image"), function(req, res, next) {
   const post = new Post({
     title: req.body.title,
     content: req.body.content
@@ -23,7 +44,7 @@ router.post('/posts', function(req, res, next) {
   })
 })
 
-router.get('/posts/:id', function(req, res, next) {
+router.get('/:id', function(req, res, next) {
   Post.findById(req.params.id)
   .exec((err, post) => {
     if(err) {return next(err)}
@@ -31,7 +52,7 @@ router.get('/posts/:id', function(req, res, next) {
   })
 })
 
-router.patch('/posts/:id', function(req, res, next) {
+router.patch('/:id', function(req, res, next) {
   const post = {
     _id: req.body._id,
     title: req.body.title,
@@ -43,7 +64,7 @@ router.patch('/posts/:id', function(req, res, next) {
   })
 })
 
-router.delete('/posts/:id', function(req, res, next) {
+router.delete('/:id', function(req, res, next) {
   Post.deleteOne({_id: req.params.id})
   .exec((err) => {
     if(err) {return next(err)}
