@@ -26,11 +26,17 @@ const upload = multer.diskStorage({
 
 
 router.get('', function (req, res, next) {
-  Post.find()
-    .exec((err, posts) => {
-      if (err) { return next(err) }
-      res.json({ msg: "Posts fetched from server", posts })
-    })
+  const items = +req.query.items || 4
+  const left = +req.query.left || 0
+  Post.countDocuments({}).then(count => {
+    Post.find()
+      .skip(left * items)
+      .limit(items)
+      .exec((err, posts) => {
+        if (err) { return next(err) }
+        res.json({ msg: `${items} posts fetched, ${left * items} behind.`, posts, postsCount: count })
+      })
+  }).catch(next)
 })
 
 router.post('', multer({ storage: upload }).single("image"), function (req, res, next) {

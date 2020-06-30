@@ -9,11 +9,12 @@ export class PostsService {
   constructor(private http: HttpClient, private router: Router) { }
 
   private posts: Post[] = [];
-  private stream = new Subject<Post[]>();
-  getPosts(): void {
-    this.http.get<{msg: string, posts: Post[]}>('http://localhost:3000/api/posts').subscribe((res) => {
+  private stream = new Subject<{posts: Post[], postsCount: number}>();
+  getPosts(items: number, left: number): void {
+    const query = `?items=${items}&left=${left}`
+    this.http.get<{msg: string, posts: Post[], postsCount: number}>('http://localhost:3000/api/posts'+query).subscribe((res) => {
       this.posts = res.posts
-      this.stream.next([...this.posts])
+      this.stream.next({posts: [...this.posts], postsCount: res.postsCount})
     })
   }
   postsListener() {
@@ -27,9 +28,9 @@ export class PostsService {
     data.append('title', title)
     data.append('content', content)
     data.append('image', image, title)
-    this.http.post<{msg: string, post: Post}>('http://localhost:3000/api/posts', data).subscribe((res) => {
+    this.http.post<{msg: string, post: Post, postsCount: number}>('http://localhost:3000/api/posts', data).subscribe((res) => {
       this.posts.push(res.post)
-      this.stream.next([...this.posts])
+      this.stream.next({posts: [...this.posts], postsCount: res.postsCount})
       this.router.navigate(['/'])
     })
   }
@@ -49,13 +50,7 @@ export class PostsService {
       this.router.navigate(['/'])
     })
   }
-  delPost(id: string): void {
-    this.http.delete(`http://localhost:3000/api/posts/${id}`).subscribe((res) => {
-      this.posts = this.posts.reduce((updated, post) => {
-        if(post._id !== id) updated.push(post)
-        return updated
-      }, [])
-      this.stream.next([...this.posts])
-    })
+  delPost(id: string) {
+    return this.http.delete<{msg: string}>(`http://localhost:3000/api/posts/${id}`)
   }
 }
