@@ -36,8 +36,9 @@ export class PostCreateComponent implements OnInit {
           this.form.setValue({
             title: this.post.title,
             content: this.post.content,
-            imagePath: this.post.imagePath
+            image: this.post.imagePath || null
           })
+          if(this.post.imagePath) this.imagePreview = this.post.imagePath
         })
       }
     })
@@ -59,11 +60,9 @@ export class PostCreateComponent implements OnInit {
       return;
     }
     this.isLoading = true;
-    if(this.use==="edit") {
-      this.postsService.editPost(this.postId, this.form.value.title, this.form.value.content, null)
-    } else {
+    this.use === "edit" ?
+      this.postsService.editPost(this.postId, this.form.value.title, this.form.value.content, this.form.value.image) :
       this.postsService.addPost(this.form.value.title, this.form.value.content, this.form.value.image)
-    }
     this.form.reset()
   }
 }

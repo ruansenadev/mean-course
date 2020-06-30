@@ -33,9 +33,18 @@ export class PostsService {
       this.router.navigate(['/'])
     })
   }
-  editPost(id: string, title: string, content: string, imagePath: string): void {
-    const post = {_id: id, title, content, imagePath};
-    this.http.patch<{msg: string}>(`http://localhost:3000/api/posts/${id}`, post).subscribe((res) => {
+  editPost(id: string, title: string, content: string, image: File | string): void {
+    let data: FormData | Post;
+    if(typeof image === 'object') {
+      data = new FormData()
+      data.append('_id', id)
+      data.append('title', title)
+      data.append('content', content)
+      data.append('image', image, title)
+    } else {
+      data = {_id: id, title, content, imagePath: image};
+    }
+    this.http.patch<{msg: string}>(`http://localhost:3000/api/posts/${id}`, data).subscribe((res) => {
       console.log(res.msg)
       this.router.navigate(['/'])
     })

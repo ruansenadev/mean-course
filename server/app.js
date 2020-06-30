@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const logger = require('morgan')
 const path = require('path')
 
-const postsRouter = require('./routes/api')
+const postsRouter = require('./routes/posts')
 
 mongoose.connect(process.env.MONGO_URI, {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false})
 const mongoDB = mongoose.connection

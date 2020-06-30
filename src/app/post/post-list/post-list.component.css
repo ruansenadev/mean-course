@@ -4,3 +4,10 @@ mat-spinner {
 .alert {
   text-align: center;
 }
+.post-image {
+  display: block;
+  max-width: 14rem;
+}
+.post-image img {
+  width: 100%;
+}
