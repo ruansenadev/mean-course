@@ -4,11 +4,14 @@ mat-toolbar {
   align-items: center;
 }
 nav {
-  padding-right: 2rem;
-  font-size: 1rem;
   text-transform: uppercase;
+  font-size: 1rem;
+}
+.nav-brand {
+  text-decoration: none;
+  color: inherit;
 }
 .nav-link {
   text-decoration: none;
-  color: inherit;
+  margin: 0 .5rem;
 }
