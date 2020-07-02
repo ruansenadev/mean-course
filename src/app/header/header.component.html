@@ -1,12 +1,13 @@
 <mat-toolbar>
-  <a routerLink="/" class="nav-brand">
+  <a routerLink="/" class="nav-link mat-primary">
     <h1>
       MEAN
     </h1>
   </a>
   <nav>
-    <a routerLink="/new" class="nav-link" mat-stroked-button routerLinkActive="mat-primary">Adicionar</a>
-    <a routerLink="/login" class="nav-link" mat-stroked-button routerLinkActive="mat-primary">Login</a>
-    <a routerLink="/signup" class="nav-link" mat-stroked-button routerLinkActive="mat-accent">Signup</a>
+    <a *ngIf="isAuth" routerLink="/new" class="nav-item nav-link" mat-button routerLinkActive="mat-primary">Adicionar</a>
+    <a *ngIf="!isAuth" routerLink="/login" class="nav-item nav-link" mat-button routerLinkActive="mat-primary">Login</a>
+    <a *ngIf="!isAuth" routerLink="/signup" class="nav-item nav-link" mat-stroked-button routerLinkActive="mat-accent">Signup</a>
+    <button *ngIf="isAuth" class="nav-item" mat-stroked-button>Logout</button>
   </nav>
 </mat-toolbar>
