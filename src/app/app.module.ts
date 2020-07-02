@@ -3,9 +3,8 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from "./app-routing.module";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 
-import { HttpClientModule } from "@angular/common/http";
-import { PostsService } from "./posts.service";
-import { AuthService } from "./auth.service";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { AuthInterceptor } from "./auth/auth.interceptor";
 
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatCardModule } from "@angular/material/card";
@@ -47,7 +46,7 @@ import { PostListComponent } from "./post/post-list/post-list.component";
     MatButtonModule,
     MatPaginatorModule
   ],
-  providers: [AuthService, PostsService],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
