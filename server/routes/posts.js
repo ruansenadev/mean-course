@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors')
+const jwtAuth = require('../middlewares/auth')
 const multer = require('multer')
 const Post = require('../models/post')
 const router = express.Router()
@@ -39,7 +40,7 @@ router.get('', function (req, res, next) {
   }).catch(next)
 })
 
-router.post('', multer({ storage: upload }).single("image"), function (req, res, next) {
+router.post('', jwtAuth, multer({ storage: upload }).single("image"), function (req, res, next) {
   const post = new Post({
     title: req.body.title,
     content: req.body.content,
@@ -59,7 +60,7 @@ router.get('/:id', function (req, res, next) {
     })
 })
 
-router.patch('/:id', multer({ storage: upload }).single('image'), function (req, res, next) {
+router.patch('/:id', jwtAuth, multer({ storage: upload }).single('image'), function (req, res, next) {
   let post = {
     _id: req.body._id,
     title: req.body.title,
@@ -72,7 +73,7 @@ router.patch('/:id', multer({ storage: upload }).single('image'), function (req,
   })
 })
 
-router.delete('/:id', function (req, res, next) {
+router.delete('/:id', jwtAuth, function (req, res, next) {
   Post.deleteOne({ _id: req.params.id })
     .exec((err) => {
       if (err) { return next(err) }
