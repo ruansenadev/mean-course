@@ -10,11 +10,15 @@ import { Subject, timer } from 'rxjs';
 export class AuthService {
   constructor(private http: HttpClient, private router: Router) { }
   private token: string
+  private id: string
   private tokenTimer: number
   private isAuth = false
   private authListener = new Subject<boolean>()
   getToken(): string {
     return this.token
+  }
+  getUserId(): string {
+    return this.id
   }
   getAuthStatus(): boolean {
     return this.isAuth
@@ -29,22 +33,25 @@ export class AuthService {
       this.router.navigate(['/'])
     })
   }
-  storeData(token: string, expiration: Date): void {
+  storeData(token: string, expiration: Date, id: string): void {
     localStorage.setItem('token', token)
     localStorage.setItem('expiration', expiration.toISOString())
+    localStorage.setItem('id', id)
   }
   clearStore(): void {
     localStorage.removeItem('token')
     localStorage.removeItem('expiration')
+    localStorage.removeItem('id')
   }
   login(email: string, password: string): void {
     const data: User = { email, password }
-    this.http.post<{ token: string, expiresIn: number }>('http://localhost:3000/users/login', data).subscribe((res) => {
+    this.http.post<{ token: string, expiresIn: number , _id: string}>('http://localhost:3000/users/login', data).subscribe((res) => {
       this.token = res.token
       if (res.token) {
+        this.id = res._id
         this.isAuth = true;
         this.authListener.next(true)
-        this.storeData(res.token, new Date(Date.now() + res.expiresIn))
+        this.storeData(res.token, new Date(Date.now() + res.expiresIn), res._id)
         this.tokenTimer = setTimeout(() => {
           this.logout()
         }, res.expiresIn)
@@ -54,6 +61,7 @@ export class AuthService {
   }
   logout(): void {
     this.token = null
+    this.id = null
     this.isAuth = false
     this.authListener.next(false)
     this.clearStore()
@@ -66,6 +74,7 @@ export class AuthService {
     if (!token || !expiration) {
       return
     }
+    this.id = localStorage.getItem('id')
     const expiresIn = new Date(expiration).getTime() - Date.now()
     if (expiresIn > 0) {
       this.token = token

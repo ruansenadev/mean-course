@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/auth.service';
 
 export class PostListComponent implements OnInit, OnDestroy {
   constructor(private postsService: PostsService, private authService: AuthService) {}
+  userId: string;
   posts: Post[] = []
   isLoading: boolean;
   totalPosts: number;
@@ -30,9 +31,11 @@ export class PostListComponent implements OnInit, OnDestroy {
       this.totalPosts = res.postsCount
       this.posts = res.posts
     })
+    this.userId = this.authService.getUserId()
     this.isAuth = this.authService.getAuthStatus()
     this.authListen = this.authService.getAuthStatusListener().subscribe((status) => {
       this.isAuth = status
+      this.userId = this.authService.getUserId()
     })
   }
   ngOnDestroy() {

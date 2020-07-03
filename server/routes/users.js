@@ -33,7 +33,7 @@ router.post('/login', function (req, res, next) {
           return res.status(401).json({ msg: 'Auth failed' })
         }
         const token = jwt.sign({email: user.email, _id: user._id}, process.env.JWT_SECRET, {expiresIn: '1h'})
-        res.json({token, expiresIn: (1 * 3600 * 1000)})
+        res.json({token, expiresIn: (1 * 3600 * 1000), _id: user._id})
       })
     })
 })

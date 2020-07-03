@@ -40,6 +40,7 @@ router.get('', function (req, res, next) {
 })
 
 router.post('', jwtAuth, multer({ storage: upload }).single("image"), function (req, res, next) {
+  console.log(req.user)
   const post = new Post({
     title: req.body.title,
     content: req.body.content,
