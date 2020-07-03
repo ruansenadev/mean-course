@@ -25,7 +25,6 @@ const upload = multer.diskStorage({
   }
 })
 
-
 router.get('', function (req, res, next) {
   const items = +req.query.items || 4
   const left = +req.query.left || 0
@@ -44,7 +43,8 @@ router.post('', jwtAuth, multer({ storage: upload }).single("image"), function (
   const post = new Post({
     title: req.body.title,
     content: req.body.content,
-    imagePath: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    imagePath: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+    author: req.user._id
   })
   post.save((err, post) => {
     if (err) { return next(err) }

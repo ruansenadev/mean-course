@@ -2,8 +2,9 @@ const jwt = require('jsonwebtoken')
 
 module.exports = function(req, res, next) {
   try {
-    const token = req.headers.authorization.split(" ")[1]
-    jwt.verify(token, process.env.JWT_SECRET)
+    let token = req.headers.authorization.split(" ")[1]
+    token = jwt.verify(token, process.env.JWT_SECRET)
+    req.user = {email: token.email, _id: token._id}
     next()
   } catch (error) {
     return res.status(401).json({msg: "Auth failed"})

@@ -43,7 +43,7 @@ export class PostsService {
       data.append('content', content)
       data.append('image', image, title)
     } else {
-      data = {_id: id, title, content, imagePath: image};
+      data = {_id: id, title, content, imagePath: image, author: null};
     }
     this.http.patch<{msg: string}>(`http://localhost:3000/api/posts/${id}`, data).subscribe((res) => {
       console.log(res.msg)
