@@ -26,6 +26,7 @@ export class AuthService {
     const data: User = { email, password }
     this.http.post<{ msg: string, user: User }>('http://localhost:3000/users/signup', data).subscribe((res) => {
       console.log(res)
+      this.router.navigate(['/'])
     })
   }
   storeData(token: string, expiration: Date): void {
@@ -62,7 +63,6 @@ export class AuthService {
   authBack() {
     const token = localStorage.getItem('token')
     const expiration = localStorage.getItem('expiration')
-    console.log(token, expiration)
     if (!token || !expiration) {
       return
     }

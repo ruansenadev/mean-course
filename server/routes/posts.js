@@ -67,18 +67,25 @@ router.patch('/:id', jwtAuth, multer({ storage: upload }).single('image'), funct
     content: req.body.content,
     imagePath: req.body.imagePath || `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   }
-  Post.updateOne({ _id: req.params.id }, post).exec((err) => {
+  Post.updateOne({ _id: req.params.id, author: req.user._id }, post).exec((err, result) => {
     if (err) { return next(err) }
-    res.json({ msg: "Post updated" })
+    if (result.nModified) {
+      res.json({ msg: "Post updated" })
+    } else {
+      res.status(401).json({ msg: "Not authorized" })
+    }
   })
 })
 
 router.delete('/:id', jwtAuth, function (req, res, next) {
-  Post.deleteOne({ _id: req.params.id })
-    .exec((err) => {
-      if (err) { return next(err) }
+  Post.deleteOne({ _id: req.params.id, author: req.user._id }).exec((err, result) => {
+    if (err) { return next(err) }
+    if (result.n) {
       res.json({ msg: 'Post deleted' })
-    })
+    } else {
+      res.status(401).json({ msg: 'Not authorized' })
+    }
+  })
 })
 
 module.exports = router
