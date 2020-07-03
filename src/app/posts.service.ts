@@ -46,7 +46,6 @@ export class PostsService {
       data = {_id: id, title, content, imagePath: image, author: null};
     }
     this.http.patch<{msg: string}>(`http://localhost:3000/api/posts/${id}`, data).subscribe((res) => {
-      console.log(res.msg)
       this.router.navigate(['/'])
     })
   }

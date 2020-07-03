@@ -29,8 +29,9 @@ export class AuthService {
   createUser(email: string, password: string): void {
     const data: User = { email, password }
     this.http.post<{ msg: string, user: User }>('http://localhost:3000/users/signup', data).subscribe((res) => {
-      console.log(res)
       this.router.navigate(['/'])
+    }, (err) => {
+      this.authListener.next(false)
     })
   }
   storeData(token: string, expiration: Date, id: string): void {
@@ -57,6 +58,8 @@ export class AuthService {
         }, res.expiresIn)
         this.router.navigate(['/'])
       }
+    }, (err) => {
+      this.authListener.next(false)
     })
   }
   logout(): void {
