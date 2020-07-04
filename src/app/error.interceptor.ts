@@ -12,11 +12,10 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((res: HttpErrorResponse) => {
         this.dialog.open(ErrorComponent, {
-          data: {message: res.error.message || 'Unknown error'}
+          data: {message: res.error.message || 'Erro desconhecido'}
         })
         return throwError(res)
       })
     )
   }
-
 }
