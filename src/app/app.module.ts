@@ -4,8 +4,10 @@ import { AppRoutingModule } from "./app-routing.module";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { ErrorInterceptor } from "./error.interceptor";
 import { AuthInterceptor } from "./auth/auth.interceptor";
 
+import { MatDialogModule } from "@angular/material/dialog";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatCardModule } from "@angular/material/card";
 import { MatExpansionModule } from "@angular/material/expansion";
@@ -14,6 +16,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatPaginatorModule } from "@angular/material/paginator";
 
+import { ErrorComponent } from "./error/error.component";
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from "./header/header.component";
@@ -28,6 +31,7 @@ import { PostListComponent } from "./post/post-list/post-list.component";
     HeaderComponent,
     SignupComponent,
     LoginComponent,
+    ErrorComponent,
     PostCreateComponent,
     PostListComponent,
   ],
@@ -38,6 +42,7 @@ import { PostListComponent } from "./post/post-list/post-list.component";
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
+    MatDialogModule,
     MatToolbarModule,
     MatProgressSpinnerModule,
     MatCardModule,
@@ -46,7 +51,11 @@ import { PostListComponent } from "./post/post-list/post-list.component";
     MatButtonModule,
     MatPaginatorModule
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
-  bootstrap: [AppComponent]
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [ErrorComponent]
 })
 export class AppModule { }
