@@ -10,11 +10,11 @@ export class ErrorInterceptor implements HttpInterceptor {
   constructor(private dialog: MatDialog) {}
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     return next.handle(req).pipe(
-      catchError((error: HttpErrorResponse) => {
+      catchError((res: HttpErrorResponse) => {
         this.dialog.open(ErrorComponent, {
-          data: {message: error.statusText || 'Unknown error'}
+          data: {message: res.error.message || 'Unknown error'}
         })
-        return throwError(error)
+        return throwError(res)
       })
     )
   }

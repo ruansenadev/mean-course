@@ -28,7 +28,7 @@ export class AuthService {
   }
   createUser(email: string, password: string): void {
     const data: User = { email, password }
-    this.http.post<{ msg: string, user: User }>('http://localhost:3000/users/signup', data).subscribe((res) => {
+    this.http.post<{ message: string, user: User }>('http://localhost:3000/users/signup', data).subscribe((res) => {
       this.router.navigate(['/'])
     }, (err) => {
       this.authListener.next(false)
