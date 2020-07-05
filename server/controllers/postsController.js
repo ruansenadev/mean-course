@@ -41,10 +41,10 @@ exports.editPost = function (req, res) {
   }
   Post.updateOne({ _id: req.params.id, author: req.user._id }, post).exec((err, result) => {
     if (err) { return res.status(401).json({ message: "É necessário estar logado!" }) }
-    if (result.nModified) {
+    if (result.n) {
       res.json({ message: "Post atualizado" })
     } else {
-      res.status(400).json({ message: "O Autor não é o mesmo." })
+      res.status(400).json({ message: "Autor não é o mesmo." })
     }
   })
 }
@@ -52,9 +52,9 @@ exports.delPost = function (req, res) {
   Post.deleteOne({ _id: req.params.id, author: req.user._id }).exec((err, result) => {
     if (err) { return res.status(401).json({ message: "É necessário estar logado!" }) }
     if (result.n) {
-      res.json({ message: 'Post deleted' })
+      res.json({ message: 'Post removido' })
     } else {
-      res.status(400).json({ message: "O Autor não é o mesmo." })
+      res.status(400).json({ message: "Autor não é o mesmo." })
     }
   })
 }
