@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 
 import { environment } from "../environments/environment";
 import { User } from "./auth/user";
-const url = environment.server + '/users/'
+const url = environment.server + '/users'
 
 @Injectable({ providedIn: 'root' })
 
@@ -31,7 +31,7 @@ export class AuthService {
   }
   createUser(email: string, password: string): void {
     const data: User = { email, password }
-    this.http.post<{ message: string, user: User }>('http://localhost:3000/users/signup', data).subscribe((res) => {
+    this.http.post<{ message: string, user: User }>(url+'/signup', data).subscribe((res) => {
       this.router.navigate(['/'])
     }, (err) => {
       this.authListener.next(false)
@@ -49,7 +49,7 @@ export class AuthService {
   }
   login(email: string, password: string): void {
     const data: User = { email, password }
-    this.http.post<{ token: string, expiresIn: number , _id: string}>('http://localhost:3000/users/login', data).subscribe((res) => {
+    this.http.post<{ token: string, expiresIn: number , _id: string}>(url+'/login', data).subscribe((res) => {
       this.token = res.token
       if (res.token) {
         this.id = res._id

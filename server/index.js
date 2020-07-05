@@ -1,6 +1,5 @@
 const http = require('http');
-const app = require('./server/app')
-const debug = require('debug')('course-project:express')
+const app = require('./app')
 
 const port = normalizePort(process.env.PORT || 3000)
 app.set('port', port)
@@ -49,5 +48,5 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  console.log('Listening on ' + bind);
 }
