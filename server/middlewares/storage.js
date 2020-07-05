@@ -11,7 +11,7 @@ const upload = multer.diskStorage({
     if (!IMAGE_MIME_TYPES[file.mimetype]) {
       cb(new Error('invalid image type'))
     } else {
-      cb(null, 'server/images')
+      cb(null, 'images')
     }
   },
   filename: (req, file, cb) => {

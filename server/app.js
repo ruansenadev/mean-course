@@ -14,9 +14,13 @@ const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-app.use('/images', express.static(path.join('images')))
+app.use('/images', express.static(path.join(__dirname, 'images')))
+app.use('/', express.static(path.join(__dirname, 'angular')))
 
 app.use('/users', usersRouter)
 app.use('/api/posts', postsRouter)
+app.use((req, res) => {
+  res.send(path.join(__dirname, 'angular', 'index.html'))
+})
 
 module.exports = app;
