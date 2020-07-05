@@ -6,8 +6,8 @@
   </a>
   <nav>
     <a *ngIf="isAuth" routerLink="/new" class="nav-item nav-link" mat-button routerLinkActive="mat-primary">Adicionar</a>
-    <a *ngIf="!isAuth" routerLink="/login" class="nav-item nav-link" mat-button routerLinkActive="mat-primary">Login</a>
-    <a *ngIf="!isAuth" routerLink="/signup" class="nav-item nav-link" mat-stroked-button routerLinkActive="mat-accent">Signup</a>
+    <a *ngIf="!isAuth" routerLink="/u/login" class="nav-item nav-link" mat-button routerLinkActive="mat-primary">Login</a>
+    <a *ngIf="!isAuth" routerLink="/u/signup" class="nav-item nav-link" mat-stroked-button routerLinkActive="mat-accent">Signup</a>
     <button *ngIf="isAuth" class="nav-item" mat-stroked-button (click)="onLogout()">Logout</button>
   </nav>
 </mat-toolbar>

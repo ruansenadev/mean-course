@@ -21,8 +21,8 @@ import { HeaderComponent } from "./header/header.component";
     ErrorComponent,
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
+    BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
     NgMaterialModule,
